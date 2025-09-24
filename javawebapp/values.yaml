@@ -1,0 +1,13 @@
+replicaCount: 2
+
+image:
+  repository: kkeducation123456/java-web-app
+  pullPolicy: IfNotPresent
+  tag: "1.0.1"
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8080
+
+

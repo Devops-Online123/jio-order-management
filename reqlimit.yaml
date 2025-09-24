@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mavenwebappdep
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mavenwebapp
+  template:
+    metadata:
+      name: mavenwebapp
+      labels:
+        app: mavenwebapp
+    spec:
+      containers:
+      - name: mavenwebapp
+        image: kkeducation123456/maven-web-app:1.2
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "300Mi"  # Minimum memory required
+            cpu: "400m"      # Minimum CPU required
+          limits:
+            memory: "1Gi"    # Maximum memory allowed
+            cpu: "400m"      # Maximum CPU allowed
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mavenwebapp-svc
+  namespace: prod
+spec:
+  type: LoadBalancer
+  selector:
+    app: mavenwebapp
+  ports:
+    - protocol: TCP
+      port: 80      
+      targetPort: 8080 
